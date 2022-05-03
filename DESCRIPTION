@@ -1,0 +1,10 @@
+Package: resources
+Version: 0.0.0-9000
+Title: Resource Specifications for R Evaluations
+Description: Some R expression requires specific resources to be evaluated, e.g. a minimum amount of RAM, a maximum run-time, a specific input file, access to the internet, etc. This package provides a grammar for declaring such resources.
+Authors@R: c(
+   person("Henrik", "Bengtsson", role=c("aut", "cre", "cph"),
+          email = "henrikb@braju.com"))
+License: MIT + file LICENSE
+RoxygenNote: 7.1.2
+
