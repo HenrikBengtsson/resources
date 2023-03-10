@@ -79,6 +79,10 @@ trim <- function(s) {
   sub("[\t\n\f\r ]+$", "", sub("^[\t\n\f\r ]+", "", s))
 }
 
+commaq <- function(s) {
+  paste(sQuote(s), collapse = ", ")
+}
+
 
 ## isFALSE() is available in R (>= 3.5.0)
 if (!exists("isFALSE", mode = "function")) {

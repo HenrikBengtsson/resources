@@ -1,15 +1,22 @@
 #' Parse a Resource Specification
 #'
-#' @param spec Resource specification as a [base::formula].
+#' @param specs Resource specification as a [base::formula].
 #'
 #' @return
 #' A list of resource specifications.
 #'
 #' @examples
-#' resources <- parse_resources(~ !fork)
+#' resources <- parse_resources(~ localhost())
 #' print(resources)
-#' resources <- parse_resources(~ !fork && ram(32*GiB))
+#'
+#' resources <- parse_resources(~ !fork())
 #' print(resources)
+#'
+#' resources <- parse_resources(~ localhost() && !fork())
+#' print(resources)
+#'
+#' #resources <- parse_resources(~ ram(32*GiB))
+#' #print(resources)
 #'
 #' @export
 parse_resources <- function(specs) {
@@ -58,13 +65,29 @@ parse_resource_specification <- function(specs) {
     if (is.symbol(spec)) {
       name <- as.character(spec)
       mdebugf("- symbol: '%s'", name)
-      type <- if (name == "!") {
+
+      type <- if (name %in% c("!", "&&")) {
         "operator"
       } else {
         "logical"
       }
       
       if (type == "operator") {
+        if (name == "&&") {
+          stop_if_not(kk + 2L <= length(specs))
+          lhs <- specs[[kk + 1L]]
+          rhs <- specs[[kk + 2L]]
+          kk <- kk + 3L
+          lhs <- parse_resource_specification(lhs)
+          rhs <- parse_resource_specification(rhs)
+          print(lhs)
+          print(rhs)
+          value <- list(name = name, type = type, should_be = TRUE)
+          value <- list(value, lhs, rhs)
+          res <- c(res, list(value))
+          next
+        }
+        
         if (! name %in% c("!")) {
           stop(sprintf("Syntax error. Unknown resource specification operator: %s", sQuote(name)))
         }
@@ -83,7 +106,7 @@ parse_resource_specification <- function(specs) {
       res <- c(res, list(value))
     } else if (is.language(spec)) {
       mdebugf("- expression: '%s'", deparse(spec))
-      stop("Not yet implemented")
+      stop(sprintf("Not yet implemented: %s", deparse(spec)))
     }
     mdebugf("Part %d of %d ... done", kk, length(specs))
     kk <- kk + 1L

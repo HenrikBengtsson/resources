@@ -7,7 +7,7 @@
 parse_resources(specs)
 }
 \arguments{
-\item{spec}{Resource specification as a [base::formula].}
+\item{specs}{Resource specification as a [base::formula].}
 }
 \value{
 A list of resource specifications.
@@ -16,9 +16,16 @@ A list of resource specifications.
 Parse a Resource Specification
 }
 \examples{
-resources <- parse_resources(~ !fork)
+resources <- parse_resources(~ localhost())
 print(resources)
-resources <- parse_resources(~ !fork && ram(32*GiB))
+
+resources <- parse_resources(~ !fork())
 print(resources)
+
+resources <- parse_resources(~ localhost() && !fork())
+print(resources)
+
+#resources <- parse_resources(~ ram(32*GiB))
+#print(resources)
 
 }

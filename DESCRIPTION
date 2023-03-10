@@ -1,5 +1,5 @@
 Package: resources
-Version: 0.0.0-9001
+Version: 0.0.0-9002
 Title: Resource Specifications for R Evaluations
 Description: Some R expression requires specific resources to be evaluated, e.g. a minimum amount of RAM, a maximum run-time, a specific input file, access to the internet, etc. This package provides a grammar for declaring such resources.
 Authors@R: c(

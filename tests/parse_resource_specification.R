@@ -1,9 +1,9 @@
 library(resources)
 library(utils)
 
-#parse_resource_specification <- resources:::parse_resource_specification
+parse_resource_specification <- resources:::parse_resource_specification
 
-specs <- parse_resource_specification(quote(fork))
+specs <- parse_resource_specification(quote(fork()))
 str(specs)
 stopifnot(
   is.list(specs),
@@ -17,7 +17,7 @@ stopifnot(
   identical(specs[["should_be"]], TRUE)
 )
 
-specs <- parse_resource_specification(quote(!fork))
+specs <- parse_resource_specification(quote(!fork()))
 str(specs)
 stopifnot(
   is.list(specs),
