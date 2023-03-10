@@ -20,32 +20,32 @@ parse_resources <- function(specs) {
   )
 
   specs <- specs[-1]
-  message("Parse RHS specifications ...")
-  message(sprintf("- specification: %s", deparse(specs)))
+  mdebugf("Parse RHS specifications ...")
+  mdebugf("- specification: %s", deparse(specs))
 
   res <- list()
   for (ii in seq_along(specs)) {
-    message(sprintf("RHS part %d of %d ...", ii, length(specs)))
+    mdebugf("RHS part %d of %d ...", ii, length(specs))
     spec <- specs[[ii]]
     value <- parse_resource_specification(spec)
     res <- c(res, list(value))
-    message(sprintf("RHS part %d of %d ... done", ii, length(specs)))
+    mdebugf("RHS part %d of %d ... done", ii, length(specs))
   }
   
-  message("Parse RHS specifications ... done")
+  mdebugf("Parse RHS specifications ... done")
 
   res
 }
 
 
 parse_resource_specification <- function(specs) {
-  message("Parse specifications ...")
-  message(sprintf("- specification: %s", deparse(specs)))
+  mdebugf("Parse specifications ...")
+  mdebugf("- specification: %s", deparse(specs))
 
   if (is.symbol(specs)) {
     spec <- specs
     name <- as.character(spec)
-    message(sprintf("- symbol: '%s'", name))
+    mdebugf("- symbol: '%s'", name)
     value <- list(name = name, type = "logical", should_be = TRUE)
     return(list(value))
   }
@@ -53,11 +53,11 @@ parse_resource_specification <- function(specs) {
   res <- list()
   kk <- 1L
   while (kk <= length(specs)) {
-    message(sprintf("Part %d of %d ...", kk, length(specs)))
+    mdebugf("Part %d of %d ...", kk, length(specs))
     spec <- specs[[kk]]
     if (is.symbol(spec)) {
       name <- as.character(spec)
-      message(sprintf("- symbol: '%s'", name))
+      mdebugf("- symbol: '%s'", name)
       type <- if (name == "!") {
         "operator"
       } else {
@@ -82,14 +82,14 @@ parse_resource_specification <- function(specs) {
       }
       res <- c(res, list(value))
     } else if (is.language(spec)) {
-      message(sprintf("- expression: '%s'", deparse(spec)))
+      mdebugf("- expression: '%s'", deparse(spec))
       stop("Not yet implemented")
     }
-    message(sprintf("Part %d of %d ... done", kk, length(specs)))
+    mdebugf("Part %d of %d ... done", kk, length(specs))
     kk <- kk + 1L
   }
   
-  message("Parse specifications ... done")
+  mdebugf("Parse specifications ... done")
 
   res
 }
